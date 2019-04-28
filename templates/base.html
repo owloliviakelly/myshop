@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock %}</title>
+  <!-- Styles -->
+
+ <!-- Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400" rel="stylesheet"/>
+
+    <!-- Custom styles -->
+   <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}" />
+
+</head>
+<body>
+  <section id="header">
+      <span>
+          <p class="text">    {% if user.is_authenticated %}
+      Hi {{ user.username }}!
+      <a href="{% url 'logout' %}">/    logout</a>
+    {% else %} </p>
+      <p class="text">You are not logged in
+      <a href="{% url 'login' %}">/  login</a>
+          {% endif %}</p>
+      </span>
+    <div class="top-bl">
+      <div class="container">
+          <div><a class="link1" href="/">Интернет - магазин</a>
+
+                 <div class="cart">
+                        {% with total_items=cart|length %}
+                            {% if cart|length > 0 %}
+                                <p class="named"> Ваша корзина:
+                                <a class="named" href="{% url "cart:CartDetail" %}">
+                                    {{ total_items }} тов. {{ cart.get_total_price }} руб.
+                                </a>
+                             {% else %}
+                                  Корзина пустая </p>
+                            {% endif %}
+                        {% endwith %}
+                 </div>
+
+            </div>
+      </div>
+    </div>
+  </section>
+  <section id="content row" class="container">
+    {% block content %}{% endblock %}
+  </section>
+</body>
+</html>
